@@ -1,5 +1,8 @@
 package com.omer.yaellastfinal;
 
+import android.media.Image;
+import android.widget.ImageView;
+
 import androidx.annotation.NonNull;
 
 import java.util.Collections;
@@ -10,11 +13,19 @@ public class BallPuzzleGame {
     private List<Jar> jars;
     private int numberOfColors;
     private int numOfJars;
+    private Image[][] board;
+    private int counter;
+    private final int SIZE;
+    private Image jarImage;
+    Image jarImage = new Image("jar.png");
+    ImageView jarImageView = new ImageView(jarImage);
+
+
+
 
     private Difficulty difficulty;
-    public enum Difficulty {
-        SUPEREASY, EASY, EASYMID, MEDIUM, HARD, EXTREME
-    }
+
+
 
     public BallPuzzleGame(Difficulty difficulty) {
         this.difficulty = difficulty;
@@ -22,33 +33,24 @@ public class BallPuzzleGame {
         setDifficultyParameters();
     }
 
-    private void setDifficultyParameters() {
-        switch (difficulty) {
-            case SUPEREASY:
-                numOfJars = 4;
-                numberOfColors = 2;
-                break;
-            case EASY:
-                numOfJars = 6;
-                numberOfColors = 4;
-                break;
-            case EASYMID:
-                numOfJars = 8;
-                numberOfColors = 6;
-                break;
-            case MEDIUM:
-                numOfJars = 10;
-                numberOfColors = 8;
-                break;
-            case HARD:
-                numOfJars = 12;
-                numberOfColors = 10;
-                break;
 
-            case EXTREME:
-                numOfJars = 14;
-                numberOfColors = 12;
-                break;
+
+    SIZE= setDifficultyParameters().(numOfJars()/2);
+
+    public BallPuzzleGame() {
+        board = new char[2][SIZE];
+    }
+
+
+
+    public void startGame() {
+        counter = 0;
+        for (int i=0;i<SIZE;i++)
+        {
+            for(int k=0;k<SIZE;k++)
+            {
+                board[i][k]=jarImage;
+            }
         }
     }
 

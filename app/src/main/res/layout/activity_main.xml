@@ -40,7 +40,6 @@
             </FrameLayout>
 
 
-
         </LinearLayout>
 
         <ImageButton
@@ -52,16 +51,18 @@
             app:layout_constraintLeft_toLeftOf="parent"
             android:contentDescription="Restart Button"
             android:background="@android:color/transparent" />
+
         <ImageButton
             android:id="@+id/back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/back"
-            app:layout_constraintTop_toTopOf="parent"
+            android:background="@android:color/transparent"
             android:contentDescription="Back Button"
-            app:layout_constraintLeft_toRightOf="@id/restart"
+            android:src="@drawable/back"
             app:layout_constraintLeft_margin="10dp"
-            android:background="@android:color/transparent" />
+            app:layout_constraintLeft_toRightOf="@id/restart"
+            app:layout_constraintTop_toTopOf="parent" />
+
     </LinearLayout>
 
 
