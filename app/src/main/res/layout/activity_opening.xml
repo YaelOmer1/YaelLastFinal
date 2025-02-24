@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".OpeningActivity">
 
 
@@ -25,19 +26,6 @@
         android:contentDescription="Start Game Button"
         android:background="@android:color/transparent" />
 
-
-    <TextView
-        android:id="@+id/highScoreText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="High Score: 0"
-        android:textSize="40sp"
-        android:textColor="@color/black"
-        android:textAllCaps="true"
-        android:textStyle="bold"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="100dp"
-        android:layout_centerHorizontal="true" />
 
 
     <TextView

@@ -15,39 +15,40 @@ public class BallPuzzleGame {
     private int numOfJars;
     private Image[][] board;
     private int counter;
-    private final int SIZE;
+    private int size;
     private Image jarImage;
-    Image jarImage = new Image("jar.png");
-    ImageView jarImageView = new ImageView(jarImage);
-
+    private ImageView jarImageView;
 
 
 
     private Difficulty difficulty;
 
-
-
     public BallPuzzleGame(Difficulty difficulty) {
-        this.difficulty = difficulty;
+
         this.jars = new ArrayList<>();
-        setDifficultyParameters();
+
+        this.difficulty = difficulty;
+        size= (difficulty.getNumOfJars())/2;
+        board = new Image[2][size];
+
+        jarImage = new Image("jar.png")
+        jarImageView = new ImageView(jarImage);
+
     }
 
 
 
-    SIZE= setDifficultyParameters().(numOfJars()/2);
 
-    public BallPuzzleGame() {
-        board = new char[2][SIZE];
-    }
+
+
 
 
 
     public void startGame() {
         counter = 0;
-        for (int i=0;i<SIZE;i++)
+        for (int i = 0; i< size; i++)
         {
-            for(int k=0;k<SIZE;k++)
+            for(int k = 0; k< size; k++)
             {
                 board[i][k]=jarImage;
             }

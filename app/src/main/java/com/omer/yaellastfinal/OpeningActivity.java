@@ -12,20 +12,15 @@ import android.widget.TextView;
 public class OpeningActivity extends AppCompatActivity {
 
     private TextView highScoreText, levelText;
-    private int highScore = 2000; // Sample high score value, you can load this from shared preferences or a database
-    private int level = 30; // Sample level value
+    public static int level = 30; // Sample level value
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_opening);
 
-
-        highScoreText = findViewById(R.id.highScoreText);
         levelText = findViewById(R.id.levelText);
 
-
-        highScoreText.setText("High Score: " + highScore);
         levelText.setText("Level: " + level);
 
 
@@ -42,7 +37,6 @@ public class OpeningActivity extends AppCompatActivity {
 
         SharedPreferences preferences = getSharedPreferences("gamePrefs", MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
-        editor.putInt("highScore", highScore);
         editor.putInt("level", level);
         editor.apply();
 
