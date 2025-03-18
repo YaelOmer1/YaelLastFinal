@@ -8,135 +8,108 @@ import androidx.annotation.NonNull;
 import java.util.Collections;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+import java.util.Random;
+
 
 public class BallPuzzleGame {
-    private List<Jar> jars;
+    private ArrayList<Jar> jarsArrayList;
+    private Difficulty difficulty;
     private int numberOfColors;
     private int numOfJars;
-    private Image[][] board;
-    private int counter;
-    private int size;
-    private Image jarImage;
-    private ImageView jarImageView;
 
-
-
-    private Difficulty difficulty;
 
     public BallPuzzleGame(Difficulty difficulty) {
 
-        this.jars = new ArrayList<>();
+        this.jarsArrayList = new ArrayList<>();
 
         this.difficulty = difficulty;
-        size= (difficulty.getNumOfJars())/2;
-        board = new Image[2][size];
 
-        jarImage = new Image("jar.png")
-        jarImageView = new ImageView(jarImage);
-
+        this.numOfJars = difficulty.getNumOfJars();
+        this.numberOfColors = difficulty.getNumberOfColors();
+        startGame();
     }
-
-
-
-
-
-
-
-
-
+    
     public void startGame() {
-        counter = 0;
-        for (int i = 0; i< size; i++)
-        {
-            for(int k = 0; k< size; k++)
-            {
-                board[i][k]=jarImage;
-            }
-        }
+        initializeJars();
+        mixBalls();
     }
+    private void initializeJars() {
+        jarsArrayList.clear(); // Clear any existing jars
 
+        Color[] allColors = Color.values();
 
-    public void initializeGame() {
-        for (int i = 0; i < numOfJars; i++) {
-            jars.add(new Jar());
-        }
-
-
-        List<Ball> allBalls = new ArrayList<>();
+        // Make sure we use only the required number of colors
         for (int i = 0; i < numberOfColors; i++) {
+            Jar jar = new Jar();
+
+            // Add 4 balls of the same color to the jar
             for (int j = 0; j < 4; j++) {
-                allBalls.add(new Ball(Color.values()[i]));
+                jar.addBall(new Ball(allColors[i]));
             }
+
+            jarsArrayList.add(jar);
         }
 
-        Collections.shuffle(allBalls);
+        for (int i = 0; i < 2; i++) {
+            jarsArrayList.add(new Jar());
+        }
+    }
 
-        int index = 0;
-        for (Jar jar : jars) {
-            for (int j = 0; j < 4; j++) {
-                if (index < allBalls.size()) {
-                    jar.addBall(allBalls.get(index));
-                    index++;
-                }
+    private void mixBalls() {
+        Random random = new Random(); // Define random once
+        int swaps = difficulty.getNumOfShuffles() * 10; // Number of swaps
+
+        for (int i = 0; i < swaps; i++) {
+            // Step 1: Find a non-empty jar to pop from
+            Jar fromJar = jarsArrayList.get(random.nextInt(numOfJars));
+            while (fromJar.getBalls().isEmpty()) { // Keep selecting until we find a jar with balls
+                fromJar = jarsArrayList.get(random.nextInt(numOfJars));
             }
-        }
-    }
 
-    private void shuffleBalls(List<Ball> allBalls) {
-        int shuffleTimes = 0;
-        switch (difficulty) {
-            case SUPEREASY:
-                numOfJars = 4;
-                numberOfColors = 2;
-                break;
-            case EASY:
-                numOfJars = 6;
-                numberOfColors = 4;
-                break;
-            case EASYMID:
-                numOfJars = 8;
-                numberOfColors = 6;
-                break;
-            case MEDIUM:
-                numOfJars = 10;
-                numberOfColors = 8;
-                break;
-            case HARD:
-                numOfJars = 12;
-                numberOfColors = 10;
-                break;
+            // Step 2: Find a non-full jar to push into (and not the same jar)
+            Jar toJar = jarsArrayList.get(random.nextInt(numOfJars));
+            while (toJar == fromJar || toJar.getBalls().size() >= 4) { // Avoid full jars or the same jar
+                toJar = jarsArrayList.get(random.nextInt(numOfJars));
+            }
 
-            case EXTREME:
-                numOfJars = 14;
-                numberOfColors = 12;
-                break;
-        }
-
-        for (int i = 0; i < shuffleTimes; i++) {
-            Collections.shuffle(allBalls);
+            // Step 3: Move the ball using pop & push
+            Ball ball = fromJar.removeBall(); // Pop from source jar
+            toJar.addBall(ball); // Push into target jar
         }
     }
 
 
-    public List<Jar> getJars() {
-        return jars;
+    public ArrayList<Jar> getJarsArrayList() {
+        return jarsArrayList;
     }
 
-
-
-    @NonNull
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < jars.size(); i++) {
-            sb.append("Jar ").append(i + 1).append(": ").append(jars.get(i).toString()).append("\n");
-        }
-        return sb.toString();
+    public void setJarsArrayList(ArrayList<Jar> jarsArrayList) {
+        this.jarsArrayList = jarsArrayList;
     }
 
-    public static void main(String[] args) {
-        BallPuzzleGame game = new BallPuzzleGame(Difficulty.EXTREME);
-        game.initializeGame();
-        System.out.println(game);
+    public Difficulty getDifficulty() {
+        return difficulty;
     }
+
+    public void setDifficulty(Difficulty difficulty) {
+        this.difficulty = difficulty;
+    }
+
+    public int getNumberOfColors() {
+        return numberOfColors;
+    }
+
+    public void setNumberOfColors(int numberOfColors) {
+        this.numberOfColors = numberOfColors;
+    }
+
+    public int getNumOfJars() {
+        return numOfJars;
+    }
+
+    public void setNumOfJars(int numOfJars) {
+        this.numOfJars = numOfJars;
+    }
+
 }

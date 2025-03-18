@@ -2,14 +2,15 @@ package com.omer.yaellastfinal;
 
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.Stack;
 
 
 public class Jar {
 
-    private Queue<Ball> balls;
+    private Stack<Ball> balls;
 
     public Jar() {
-        balls = new LinkedList<>();
+        balls = new Stack<>();
     }
 
     public void addBall(Ball ball) {
@@ -20,10 +21,14 @@ public class Jar {
         }
     }
     public Ball removeBall() {
-        return balls.poll(); // מבצע הסרה לפי סדר FIFO
+
+        if (balls.isEmpty())
+            return null;
+        else
+            return balls.pop(); // מבצע הסרה לפי סדר LIFO
     }
 
-    public Queue<Ball> getBalls() {
+    public Stack<Ball> getBalls() {
         return balls;
     }
 
