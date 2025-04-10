@@ -1,20 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@drawable/backgroundstart"
     tools:context=".OpeningActivity">
 
-
-    <ImageView
-        android:id="@+id/backgroundImage"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:src="@drawable/backgroundstart"
-        android:scaleType="centerCrop"
-        android:contentDescription="Background Image" />
 
 
     <ImageButton
@@ -27,22 +20,32 @@
         android:background="@android:color/transparent" />
 
 
+    <Spinner
+        android:id="@+id/spinnerDifficulty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:textColor="#D7C1C1"
+        android:padding="40dp"
+        android:textSize="40sp"
+        />
 
     <TextView
         android:id="@+id/levelText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Level: 1"
-        android:textSize="40sp"
-        android:textColor="@color/black"
-        android:textAllCaps="true"
-        android:textStyle="bold"
         android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
         android:layout_marginBottom="150dp"
-        android:layout_centerHorizontal="true" />
+        android:text="Level: 1"
+        android:textAllCaps="true"
+        android:textColor="@color/black"
+        android:textSize="40sp"
+        android:textStyle="bold"
+        android:layout_gravity="center_horizontal"/>
 
 
-</RelativeLayout>
+</LinearLayout>
 
 
 

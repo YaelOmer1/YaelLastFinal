@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void startGame() {
         controller.startGame();
-        BallPuzzleGame.startGame();
+        //BallPuzzleGame.startGame();
         Difficulty level = Difficulty.EASY; //TODO
 //        \\תכנות דינאמי: שני לינארים עם ID
 //                findviewbyid לכל אחד מהמ
@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void GameOver()
+    //private void GameOver()
 
 
 

@@ -5,7 +5,8 @@ public class Controller {
     private BallPuzzleGame ballPuzzleGame;
 
     public Controller() {
-        ballPuzzleGame = new BallPuzzleGame();
+
+        ballPuzzleGame = new BallPuzzleGame(Difficulty.EASY);
     }
 
     public void startGame() {
@@ -13,8 +14,8 @@ public class Controller {
     }
 
 
-    public boolean gameover() {
-        return ballPuzzleGame.gameOver();
-    }
+//    public boolean gameover() {
+//        return ballPuzzleGame.gameOver();
+//    }
 
 }

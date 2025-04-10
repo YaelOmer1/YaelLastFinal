@@ -12,6 +12,14 @@ public enum Difficulty {
     private final int numOfShuffles; // New field
 
     Difficulty(int numOfJars, int numberOfColors, int numOfShuffles) {
+
+        if (numberOfColors > numOfJars-2){
+           numberOfColors=numOfJars-2;
+        }
+        if( numberOfColors < numOfJars-2){
+            numberOfColors = numOfJars-2;
+        }
+
         this.numOfJars = numOfJars;
         this.numberOfColors = numberOfColors;
         this.numOfShuffles = numOfShuffles;
