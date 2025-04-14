@@ -23,12 +23,11 @@ public class GameOver extends AppCompatActivity {
         highScoreText = findViewById(R.id.highScoreText);
         levelText = findViewById(R.id.levelText);
 
-
         highScoreText.setText("High Score: " + highScore);
 
+        int level = getIntent().getIntExtra("level", 0);
 
-
-        levelText.setText("Level: " + OpeningActivity.level);
+        levelText.setText("Level: " + level);
 
         SharedPreferences preferences = getSharedPreferences("gamePrefs", MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();

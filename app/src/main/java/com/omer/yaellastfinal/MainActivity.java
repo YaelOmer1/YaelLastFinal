@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,12 +16,21 @@ public class MainActivity extends AppCompatActivity {
     private Ball LIGHTBLUE, LIGHTPINK, LIGHTPURPLE, PINK, PURPLE, YELLOW, RED, BLUE, GREEN, ORANGE;
     private Controller controller;
     private Jar jars;
+
+    private MyCanvasView myCanvasView;
+
+    private TextView levelTextView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         controller = new Controller();
+
+        int level = getIntent().getIntExtra("level", 0);
+        levelTextView = findViewById(R.id.levelTextView);
+        levelTextView.setText("Level: " + level);
 
         ImageButton restart = findViewById(R.id.restart);
         restart.setOnClickListener(new View.OnClickListener() {
@@ -38,7 +48,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        startGame();
+        myCanvasView = findViewById(R.id.myCanvas);
+
+        //startGame();
 
     }
 

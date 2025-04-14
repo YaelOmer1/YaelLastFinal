@@ -17,7 +17,7 @@ public class OpeningActivity extends AppCompatActivity {
 
     private TextView highScoreText, levelText;
     private Spinner spinnerDifficulty;
-    public static int level = 30; // Sample level value
+    private int level = 30; // Sample level value
 
 
     @Override
@@ -33,6 +33,7 @@ public class OpeningActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(OpeningActivity.this, MainActivity.class);
+                intent.putExtra("level", level);
                 startActivity(intent);
             }
         });
@@ -49,10 +50,13 @@ public class OpeningActivity extends AppCompatActivity {
                     @Override
                     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                         String selected = adapterView.getItemAtPosition(i).toString();
-                        Toast.makeText(OpeningActivity.this, "SELECTED: " + selected, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(OpeningActivity.this, "SELECTED: " + i + " " + l, Toast.LENGTH_SHORT).show();
                         TextView textView = (TextView) view;
                         textView.setTextSize(24);
+
+                        level = (int) l+1;
                     }
+
 
                     @Override
                     public void onNothingSelected(AdapterView<?> adapterView) {
