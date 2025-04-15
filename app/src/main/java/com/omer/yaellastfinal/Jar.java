@@ -10,6 +10,7 @@ public class Jar {
     private Stack<Ball> balls;
 
     public Jar() {
+
         balls = new Stack<>();
     }
 
@@ -17,7 +18,7 @@ public class Jar {
         if (balls.size() < 4) {
             balls.add(ball);
         } else {
-            System.out.println("Cannot add more balls to this tube");
+            // System.out.println("Cannot add more balls to this tube");
         }
     }
     public Ball removeBall() {
@@ -29,11 +30,13 @@ public class Jar {
     }
 
     public Stack<Ball> getBalls() {
+
         return balls;
     }
 
     @Override
     public String toString() {
+
         return balls.toString();
     }
 

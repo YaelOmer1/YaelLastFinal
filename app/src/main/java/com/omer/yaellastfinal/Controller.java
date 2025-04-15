@@ -10,9 +10,14 @@ public class Controller {
     }
 
     public void startGame() {
+
         ballPuzzleGame.startGame();
     }
 
+    public BallPuzzleGame getBallPuzzleGame()
+    {
+        return ballPuzzleGame;
+    }
 
 //    public boolean gameover() {
 //        return ballPuzzleGame.gameOver();

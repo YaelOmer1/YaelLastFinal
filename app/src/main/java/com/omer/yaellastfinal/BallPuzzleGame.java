@@ -81,6 +81,7 @@ public class BallPuzzleGame {
 
 
     public ArrayList<Jar> getJarsArrayList() {
+
         return jarsArrayList;
     }
 

@@ -32,30 +32,34 @@ public class MainActivity extends AppCompatActivity {
         levelTextView = findViewById(R.id.levelTextView);
         levelTextView.setText("Level: " + level);
 
-        ImageButton restart = findViewById(R.id.restart);
-        restart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // אני צריכה לעשות שהכפתור יתחיל את התור מחדש
-            }
-        });
-
-        ImageButton back = findViewById(R.id.back);
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // אני צריכה שהכפתור יחזור צעד אחד אחורה
-            }
-        });
+//        ImageButton restart = findViewById(R.id.restart);
+//        restart.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                // אני צריכה לעשות שהכפתור יתחיל את התור מחדש
+//            }
+//        });
+//
+//        ImageButton back = findViewById(R.id.back);
+//        back.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                // אני צריכה שהכפתור יחזור צעד אחד אחורה
+//            }
+//        });
 
         myCanvasView = findViewById(R.id.myCanvas);
 
-        //startGame();
+
+        startGame();
 
     }
 
     private void startGame() {
         controller.startGame();
+        List<Jar> jars =
+            controller.getBallPuzzleGame().getJarsArrayList();
+
         //BallPuzzleGame.startGame();
         Difficulty level = Difficulty.EASY; //TODO
 //        \\תכנות דינאמי: שני לינארים עם ID
