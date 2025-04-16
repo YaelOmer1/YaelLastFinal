@@ -1,4 +1,4 @@
-package com.omer.yaellastfinal;
+package com.omer.yaellastfinal.model;
 
 public class Ball {
     private Color color;

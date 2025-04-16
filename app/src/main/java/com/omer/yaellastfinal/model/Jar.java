@@ -1,7 +1,5 @@
-package com.omer.yaellastfinal;
+package com.omer.yaellastfinal.model;
 
-import java.util.LinkedList;
-import java.util.Queue;
 import java.util.Stack;
 
 

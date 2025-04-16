@@ -2,15 +2,14 @@ package com.omer.yaellastfinal;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
-import java.util.ArrayList;
+import com.omer.yaellastfinal.model.Ball;
+import com.omer.yaellastfinal.model.Difficulty;
+import com.omer.yaellastfinal.model.Jar;
+
 import java.util.List;
-import java.util.logging.Level;
 
 public class MainActivity extends AppCompatActivity {
     private Ball LIGHTBLUE, LIGHTPINK, LIGHTPURPLE, PINK, PURPLE, YELLOW, RED, BLUE, GREEN, ORANGE;

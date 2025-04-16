@@ -1,5 +1,7 @@
 package com.omer.yaellastfinal;
 
+import com.omer.yaellastfinal.model.Difficulty;
+
 public class Controller {
 
     private BallPuzzleGame ballPuzzleGame;

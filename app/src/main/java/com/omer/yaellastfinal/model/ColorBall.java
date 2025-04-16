@@ -1,6 +1,6 @@
-package com.omer.yaellastfinal;
+package com.omer.yaellastfinal.model;
 
-public enum Color {
+public enum ColorBall {
     LIGHTBLUE, LIGHTPINK, LIGHTPURPLE, PINK, PURPLE, YELLOW, RED, BLUE, GREEN, ORANGE;
 
     // אם תרצה, אפשר להוסיף תכונות כמו קוד RGB לכל צבע

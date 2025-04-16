@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:padding="10dp"
+
     tools:context=".MainActivity">
 
-
     <LinearLayout
+        android:id="@+id/layoutCanvasHeader"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="16dp"
-        android:gravity="center">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
         <TextView
             android:id="@+id/levelTextView"
@@ -21,7 +22,9 @@
             android:layout_height="wrap_content"
             android:text="Level: 0"
             android:textSize="18sp"
-            android:layout_marginBottom="20dp"/>
+            android:layout_marginBottom="20dp"
+            android:layout_marginRight="30dp"
+            />
 
 
         <TextView
@@ -31,12 +34,12 @@
             android:text="Score: 0"
             android:textSize="18sp"
             android:layout_marginBottom="20dp"/>
-
-        <com.omer.yaellastfinal.MyCanvasView
-            android:id="@+id/myCanvas"
-            android:layout_width="match_parent"
-            android:layout_height="1200px"
-        />
-
     </LinearLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <com.omer.yaellastfinal.MyCanvasView
+        android:id="@+id/myCanvas"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+</LinearLayout>
+
+
