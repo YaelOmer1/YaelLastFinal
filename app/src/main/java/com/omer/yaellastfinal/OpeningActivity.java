@@ -4,6 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.AudioAttributes;
+import android.media.AudioManager;
+import android.media.SoundPool;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -17,16 +21,15 @@ public class OpeningActivity extends AppCompatActivity {
 
     private TextView highScoreText, levelText;
     private Spinner spinnerDifficulty;
-    private int level = 30; // Sample level value
+    private int level = 30;
+    private SoundPool sp;
+    int coin;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_opening);
-
-        levelText = findViewById(R.id.levelText);
-        levelText.setText("Level: " + level);
 
         ImageButton startGameButton = findViewById(R.id.startGameButton);
         startGameButton.setOnClickListener(new View.OnClickListener() {
@@ -37,6 +40,30 @@ public class OpeningActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        if (Build.VERSION.SDK_INT>= Build.VERSION_CODES.LOLLIPOP)
+
+        {
+            AudioAttributes bg = new AudioAttributes.Builder()
+                    .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                    .setUsage(AudioAttributes.USAGE_GAME)
+                    .build();
+            sp = new SoundPool.Builder()
+                    .setMaxStreams(10)
+                    .setAudioAttributes(bg)
+                    .build();
+        }
+        else{
+            sp = new SoundPool(10, AudioManager.STREAM_MUSIC, 1);
+        }
+
+        coin = sp.load(this,R.raw.backgroundsound,1);
+
+
+
+        levelText = findViewById(R.id.levelText);
+        levelText.setText("Level: " + level);
+
 
         spinnerDifficulty = findViewById(R.id.spinnerDifficulty);
         String[] items = {"Beginner", "Easy", "Medium", "Hard", "Extreme"};
@@ -73,4 +100,5 @@ public class OpeningActivity extends AppCompatActivity {
         int level = preferences.getInt("level", 1); // Default to 1 if not found
 
     }
+
 }

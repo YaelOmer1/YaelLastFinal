@@ -1,11 +1,15 @@
 package com.omer.yaellastfinal;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import com.omer.yaellastfinal.model.Ball;
-import com.omer.yaellastfinal.model.Color;
+import com.omer.yaellastfinal.model.ColorBall;
 import com.omer.yaellastfinal.model.Difficulty;
 import com.omer.yaellastfinal.model.Jar;
 
 import java.util.ArrayList;
+
 import java.util.Random;
 
 
@@ -35,7 +39,7 @@ public class BallPuzzleGame {
     private void initializeJars() {
         jarsArrayList.clear();
 
-        Color[] allColors = Color.values();
+        ColorBall[] allColors = ColorBall.values();
 
 
         for (int i = 0; i < numberOfColors; i++) {
@@ -108,5 +112,6 @@ public class BallPuzzleGame {
     public void setNumOfJars(int numOfJars) {
         this.numOfJars = numOfJars;
     }
+
 
 }

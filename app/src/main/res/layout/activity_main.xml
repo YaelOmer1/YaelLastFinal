@@ -11,7 +11,7 @@
     tools:context=".MainActivity">
 
     <LinearLayout
-        android:id="@+id/layoutCanvasHeader"
+        android:id="@+id/layoutCanvasHeader1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
@@ -35,6 +35,56 @@
             android:textSize="18sp"
             android:layout_marginBottom="20dp"/>
     </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layoutCanvasHeader2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/restart"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/restart"
+            android:layout_centerInParent="true"
+            android:contentDescription="Restart Button"
+            android:background="@android:color/transparent" />
+
+        <ImageButton
+            android:id="@+id/back"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/back"
+            android:layout_centerInParent="true"
+            android:contentDescription="Back Button"
+            android:background="@android:color/transparent" />
+        <ImageButton
+            android:id="@+id/sound"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/soundon"
+            android:layout_centerInParent="true"
+            android:contentDescription="Sound On Button"
+            android:background="@android:color/transparent" />
+<!--        <ImageButton-->
+<!--            android:id="@+id/soundOff"-->
+<!--            android:layout_width="40dp"-->
+<!--            android:layout_height="40dp"-->
+<!--            android:src="@drawable/soundoff"-->
+<!--            android:layout_centerInParent="true"-->
+<!--            android:contentDescription="Sound Off Button"-->
+<!--            android:background="@android:color/transparent" />-->
+
+        <Button
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:text="Music"
+            >
+        </Button>
+
+    </LinearLayout>
+
     <com.omer.yaellastfinal.MyCanvasView
         android:id="@+id/myCanvas"
         android:layout_width="match_parent"

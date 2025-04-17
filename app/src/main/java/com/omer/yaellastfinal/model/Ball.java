@@ -1,17 +1,17 @@
 package com.omer.yaellastfinal.model;
 
 public class Ball {
-    private Color color;
+    private ColorBall color;
 
-    public Ball(Color color) {
+    public Ball(ColorBall color) {
         this.color = color;
     }
 
-    public Color getColor() {
+    public ColorBall getColor() {
         return color;
     }
 
-    public void setColor(Color color) {
+    public void setColor(ColorBall color) {
         this.color = color;
     }
 
