@@ -1,5 +1,7 @@
 package com.omer.yaellastfinal.model;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Stack;
 
 
@@ -15,8 +17,6 @@ public class Jar {
     public void addBall(Ball ball) {
         if (balls.size() < 4) {
             balls.add(ball);
-        } else {
-            // System.out.println("Cannot add more balls to this tube");
         }
     }
     public Ball removeBall() {
@@ -24,12 +24,17 @@ public class Jar {
         if (balls.isEmpty())
             return null;
         else
-            return balls.pop(); // מבצע הסרה לפי סדר LIFO
+            return balls.pop();
     }
 
     public Stack<Ball> getBalls() {
 
         return balls;
+    }
+
+    public List<Ball> getBallsAsList()
+    {
+        return new ArrayList<>(balls);
     }
 
     @Override

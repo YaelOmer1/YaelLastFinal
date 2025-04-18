@@ -21,10 +21,7 @@ public class OpeningActivity extends AppCompatActivity {
 
     private TextView highScoreText, levelText;
     private Spinner spinnerDifficulty;
-    private int level = 30;
-    private SoundPool sp;
-    int coin;
-
+    int level = 5;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,25 +37,6 @@ public class OpeningActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-        if (Build.VERSION.SDK_INT>= Build.VERSION_CODES.LOLLIPOP)
-
-        {
-            AudioAttributes bg = new AudioAttributes.Builder()
-                    .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
-                    .setUsage(AudioAttributes.USAGE_GAME)
-                    .build();
-            sp = new SoundPool.Builder()
-                    .setMaxStreams(10)
-                    .setAudioAttributes(bg)
-                    .build();
-        }
-        else{
-            sp = new SoundPool(10, AudioManager.STREAM_MUSIC, 1);
-        }
-
-        coin = sp.load(this,R.raw.backgroundsound,1);
-
 
 
         levelText = findViewById(R.id.levelText);
@@ -96,8 +74,8 @@ public class OpeningActivity extends AppCompatActivity {
         editor.putInt("level", level);
         editor.apply();
 
-        int highScore = preferences.getInt("highScore", 0); // Default to 0 if not found
-        int level = preferences.getInt("level", 1); // Default to 1 if not found
+        int highScore = preferences.getInt("highScore", 0);
+        int level = preferences.getInt("level", 1);
 
     }
 
