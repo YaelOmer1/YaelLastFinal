@@ -12,74 +12,89 @@ import android.view.View;
 import androidx.annotation.Nullable;
 
 import com.omer.yaellastfinal.model.Ball;
+import com.omer.yaellastfinal.model.BallPuzzleGame;
 import com.omer.yaellastfinal.model.ColorBall;
 import com.omer.yaellastfinal.model.Jar;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class MyCanvasView extends View {
 
 
     private Paint paint;
     private Bitmap bitmapJar;
-    private Bitmap bitmapJarResized;
 
-    private Bitmap bitmapBall;
-    private Bitmap bitmapBallResized;
 
-    int level = 0;
+    private Map<ColorBall, Bitmap> mapBitmapBalls = new HashMap<>();
+
+
     Controller controller;
 
     private final int X_JARS_START = 10;
-    private final int Y_JARS_START = 10;
+    private final int Y_JARS_START = 250;
     private final int JAR_WIDTH = 230;
     private final int JAR_HEIGHT = 550;
     private final int JAR_MARGIN_HORIZONTAL = 20;
     private final int JAR_MARGIN_VERTICAL = 30;
     private final int MAX_JARS_IN_LINE = 4;
 
+
+
     private final int BALL_WIDTH = JAR_WIDTH - 120;
     private final int BALL_HEIGHT = BALL_WIDTH;
     private final int BALL_MARGIN_BOTTOM = 1;
-    private final int MAX_BALLS_IN_JAR = 4;
 
     private int num_lines_of_jars = 0;
-    private int num_of_jars = 10;
 
     Context context;
 
-    ColorBall[] ballColors = {ColorBall.BLUE, ColorBall.LIGHTBLUE, ColorBall.LIGHTPINK, ColorBall.LIGHTPURPLE, ColorBall.PINK, ColorBall.PURPLE, ColorBall.YELLOW, ColorBall.RED, ColorBall.GREEN, ColorBall.ORANGE};
+    ColorBall[] ballColors = {ColorBall.BLUE, ColorBall.LIGHTBLUE, ColorBall.LIGHTPINK,
+            ColorBall.LIGHTPURPLE, ColorBall.PINK, ColorBall.PURPLE, ColorBall.YELLOW,
+            ColorBall.RED, ColorBall.GREEN, ColorBall.ORANGE};
 
-    public void setLevel(int level) {
-        this.level = level;
-    }
 
     public void setController(Controller controller) {
         this.controller = controller;
     }
 
-    private int getBallImage(Ball ball) {
-        if (ball.getColor() == ColorBall.BLUE)
-            return R.drawable.ballblue;
-        if (ball.getColor() == ColorBall.GREEN)
-            return R.drawable.ballgreen;
-        if (ball.getColor() == ColorBall.LIGHTBLUE)
-            return R.drawable.balllightblue;
-        if (ball.getColor() == ColorBall.LIGHTPINK)
-            return R.drawable.ballpink;
-        if (ball.getColor() == ColorBall.LIGHTPURPLE)
-            return R.drawable.ballpurple;
-        if (ball.getColor() == ColorBall.PINK)
-            return R.drawable.ballpink;
-        if (ball.getColor() == ColorBall.PURPLE)
-            return R.drawable.ballpurple;
-        if (ball.getColor() == ColorBall.YELLOW)
-            return R.drawable.ballyellow;
-        if (ball.getColor() == ColorBall.RED)
-            return R.drawable.ballred;
-        if (ball.getColor() == ColorBall.ORANGE)
-            return R.drawable.ballorange;
+    private Map<ColorBall, Integer> mapBallColorToDrawableId =
+        Map.of(ColorBall.BLUE, R.drawable.ballblue,
+                ColorBall.GREEN, R.drawable.ballgreen,
+                ColorBall.LIGHTBLUE, R.drawable.balllightblue,
+                ColorBall.LIGHTPINK, R.drawable.balllightpink,
+                ColorBall.LIGHTPURPLE, R.drawable.balllightpurple,
+                ColorBall.PINK, R.drawable.ballpink,
+                ColorBall.PURPLE, R.drawable.ballpurple,
+                ColorBall.YELLOW, R.drawable.ballyellow,
+                ColorBall.RED, R.drawable.ballred,
+                ColorBall.ORANGE, R.drawable.ballorange);
 
-        return R.drawable.ballred;
-    }
+
+//    private int getBallImage(Ball ball) {
+//        if (ball.getColor() == ColorBall.BLUE)
+//            return R.drawable.ballblue;
+//        if (ball.getColor() == ColorBall.GREEN)
+//            return R.drawable.ballgreen;
+//        if (ball.getColor() == ColorBall.LIGHTBLUE)
+//            return R.drawable.balllightblue;
+//        if (ball.getColor() == ColorBall.LIGHTPINK)
+//            return R.drawable.balllightpink;
+//        if (ball.getColor() == ColorBall.LIGHTPURPLE)
+//            return R.drawable.ballpurple;
+//        if (ball.getColor() == ColorBall.PURPLE)
+//            return R.drawable.ballpink;
+//        if (ball.getColor() == ColorBall.PINK)
+//            return R.drawable.ballpurple;
+//        if (ball.getColor() == ColorBall.YELLOW)
+//            return R.drawable.ballyellow;
+//        if (ball.getColor() == ColorBall.RED)
+//            return R.drawable.ballred;
+//        if (ball.getColor() == ColorBall.ORANGE)
+//            return R.drawable.ballorange;
+//
+//        return R.drawable.ballred;
+//    }
 
 
     public MyCanvasView(Context context, @Nullable AttributeSet attrs) {
@@ -102,18 +117,19 @@ public class MyCanvasView extends View {
 
         bitmapJar = BitmapFactory.decodeResource(
                 context.getResources(), R.drawable.jar);
-        bitmapJarResized = Bitmap.createScaledBitmap(
+        bitmapJar = Bitmap.createScaledBitmap(
                 bitmapJar, JAR_WIDTH, JAR_HEIGHT, true);
 
-        Ball ball = new Ball(ColorBall.BLUE);
-        int imageBall = getBallImage(ball);
-        bitmapBall = BitmapFactory.decodeResource(
-                context.getResources(), imageBall
-        );
-        bitmapBallResized = Bitmap.createScaledBitmap(
-                bitmapBall, BALL_WIDTH, BALL_HEIGHT, true);
 
-
+        Bitmap bitmapBall;
+        for (int i=0; i<BallPuzzleGame.MAX_BALLS_COLORS; i++) {
+            int ballDrawableId = mapBallColorToDrawableId.get(ballColors[i]);
+            bitmapBall = BitmapFactory.decodeResource(
+                    context.getResources(), ballDrawableId);
+            bitmapBall = Bitmap.createScaledBitmap(
+                    bitmapBall, BALL_WIDTH, BALL_HEIGHT, true);
+            mapBitmapBalls.put(ballColors[i], bitmapBall);
+        }
     }
 
 
@@ -123,13 +139,13 @@ public class MyCanvasView extends View {
 
         //num_of_jars = 4 + 2 * (this.level - 1);
         // num_of_jars is decided by the Game (model)
-        num_of_jars = controller.getBallPuzzleGame().getNumOfJars();
+        int numJars = controller.getBallPuzzleGame().getNumOfJars();
 
         // num_of_jars is decided in the View
-        if (num_of_jars % MAX_JARS_IN_LINE == 0) {
-            num_lines_of_jars = num_of_jars / MAX_JARS_IN_LINE;
+        if (numJars % MAX_JARS_IN_LINE == 0) {
+            num_lines_of_jars = numJars / MAX_JARS_IN_LINE;
         } else {
-            num_lines_of_jars = num_of_jars / MAX_JARS_IN_LINE + 1;
+            num_lines_of_jars = numJars / MAX_JARS_IN_LINE + 1;
         }
 
         // canvas.drawCircle(130, 130, 100, paint);
@@ -137,16 +153,12 @@ public class MyCanvasView extends View {
 
         canvas.drawColor(Color.WHITE);
 
-        if (bitmapJarResized == null || bitmapBallResized == null) {
-            return;
-        }
-
         int countJars = 0;
         boolean do_continue = true;
         for (int line = 0; line < num_lines_of_jars && do_continue; line++) {
             int x = X_JARS_START;
             if (line == num_lines_of_jars - 1 &&
-                    num_of_jars % MAX_JARS_IN_LINE == 2) {
+                    numJars % MAX_JARS_IN_LINE == 2) {
                 x += JAR_WIDTH + JAR_MARGIN_HORIZONTAL;
             }
 
@@ -154,37 +166,26 @@ public class MyCanvasView extends View {
                     line * (JAR_HEIGHT + JAR_MARGIN_VERTICAL);
 
             for (int numJar = 0; numJar < MAX_JARS_IN_LINE; numJar++) {
-                canvas.drawBitmap(bitmapJarResized, x, y, paint);
-
-//                if (countJars <= num_of_jars - 2) {
-//                    int yBall = y + 70;
-//                    for (int i = 0; i < NUM_BALLS_IN_JAR; i++) {
-//                        canvas.drawBitmap(bitmapBallResized, x + 60, yBall, paint);
-//                        yBall += BALL_HEIGHT + BALL_MARGIN_BOTTOM;
-//                    }
-//                }
+                canvas.drawBitmap(bitmapJar, x, y, paint);
 
                 int yBall = y + 70;
                 Jar jar = controller.getBallPuzzleGame().getJarsList().get(countJars);
                 int numBalls = jar.getBalls().size();
-                int missingBallsInJar = MAX_BALLS_IN_JAR - numBalls;
+                int missingBallsInJar = Jar.MAX_BALLS_IN_JAR - numBalls;
                 yBall += missingBallsInJar * (BALL_HEIGHT + BALL_MARGIN_BOTTOM);
                 for (int i = 0; i < jar.getBalls().size(); i++) {
                     Ball ball = jar.getBallsAsList().get(i);
-                    int imageBall = getBallImage(ball);
-                    bitmapBall = BitmapFactory.decodeResource(
-                            context.getResources(), imageBall
-                    );
-                    bitmapBallResized = Bitmap.createScaledBitmap(
-                            bitmapBall, BALL_WIDTH, BALL_HEIGHT, true);
-
-                    canvas.drawBitmap(bitmapBallResized, x + 60, yBall, paint);
+                    //int imageBall = getBallImage(ball);
+                    Bitmap bitmapBall = mapBitmapBalls.get(ball.getColor());
+                    if (bitmapBall != null) {
+                        canvas.drawBitmap(bitmapBall, x + 60, yBall, paint);
+                    }
                     yBall += BALL_HEIGHT + BALL_MARGIN_BOTTOM;
                 }
 
                 countJars++;
 
-                if (countJars >= num_of_jars) {
+                if (countJars >= numJars) {
                     do_continue = false;
                     break;
                 }

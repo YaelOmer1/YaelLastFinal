@@ -12,9 +12,9 @@ public class Controller {
         ballPuzzleGame = new BallPuzzleGame(Difficulty.EASY);
     }
 
-    public void startGame() {
+    public void startGame(int level) {
 
-        ballPuzzleGame.startGame();
+        ballPuzzleGame.startGame(level);
     }
 
     public BallPuzzleGame getBallPuzzleGame()

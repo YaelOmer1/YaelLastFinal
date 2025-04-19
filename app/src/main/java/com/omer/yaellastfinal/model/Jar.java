@@ -7,7 +7,10 @@ import java.util.Stack;
 
 public class Jar {
 
+    public static final int MAX_BALLS_IN_JAR = 4;
+
     private Stack<Ball> balls;
+
 
     public Jar() {
 

@@ -7,6 +7,16 @@ import java.util.Random;
 
 
 public class BallPuzzleGame {
+
+    public static final int MAX_JARS = 12;
+
+    public static final int NUM_EMPTY_JARS = 2;
+
+    // Max colors in any game
+    public static final int MAX_BALLS_COLORS = MAX_JARS - NUM_EMPTY_JARS;
+
+    private int level;
+
     private List<Jar> jarsList;
     private Difficulty difficulty;
     private int numberOfColors;
@@ -18,16 +28,21 @@ public class BallPuzzleGame {
         // this.jarsList = new LinkedList<>();
         this.jarsList = new ArrayList<>();
 
-        this.difficulty = difficulty;
-
-        this.numOfJars = difficulty.getNumOfJars();
-        this.numberOfColors = difficulty.getNumOfColors();
-        startGame();
+//        this.difficulty = difficulty;
+//
+//        this.numOfJars = difficulty.getNumOfJars();
+//        this.numberOfColors = difficulty.getNumOfColors();
     }
     
-    public void startGame() {
+    public void startGame(int level) {
+        this.level = level;
+        //this.numOfJars = difficulty.getNumOfJars();
+        this.numOfJars = 4 + (level-1)*2;
+        //this.numberOfColors = difficulty.getNumOfColors();
+        this.numberOfColors = numOfJars - NUM_EMPTY_JARS;
+
         initializeJars();
-        mixBalls(10);
+        mixBalls(50);
     }
 
     private void initializeJars() {

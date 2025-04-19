@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     private Jar jars;
     private MyCanvasView myCanvasView;
     private TextView tvLevel;
+    private int level;
 
     private Button btnMonitor;
 
@@ -43,25 +44,27 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
         controller = new Controller();
 
-        int level = getIntent().getIntExtra("level", 0);
+        this.level = getIntent().getIntExtra("level", 0);
         tvLevel = findViewById(R.id.tvLevel);
-        tvLevel.setText("Level: " + level);
-
-
+        tvLevel.setText("Level: " + this.level);
 
         tvMonitor = findViewById(R.id.tvMonitor);
 
-
         myCanvasView = findViewById(R.id.myCanvas);
-        myCanvasView.setLevel(level);
         myCanvasView.setController(controller);
 
         btnMonitor = findViewById(R.id.btnMonitor);
         btnMonitor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                tvMonitor.setVisibility(View.VISIBLE);
-                myCanvasView.setVisibility(View.GONE);
+                if(myCanvasView.getVisibility() == View.VISIBLE) {
+                    tvMonitor.setVisibility(View.VISIBLE);
+                    myCanvasView.setVisibility(View.GONE);
+                }
+                else {
+                    tvMonitor.setVisibility(View.GONE);
+                    myCanvasView.setVisibility(View.VISIBLE);
+                }
             }
         });
 
@@ -110,7 +113,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         restart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                controller.startGame();
+                controller.startGame(level);
 
             }
         });
@@ -124,7 +127,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 //        });
 
 
-        controller.startGame();
+        controller.startGame(level);
         StringBuilder msg = new StringBuilder();
         msg.append("Jars:\n");
         List<Jar> jars = controller.getBallPuzzleGame().getJarsList();
