@@ -194,17 +194,6 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
         return true;
         }
-//            if (view == sound) {
-//                sp.play(backgroundsound, 1, 1, 1, -1, 1);
-//                sound.setImageResource(R.drawable.soundon);
-//            }
-//            view.setAlpha(1);
-//        }
-//        else if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-//            view.setAlpha(f);
-//            sound.setImageResource(R.drawable.soundoff);
-//        }
-//
-//        return true;
+
 
 }
