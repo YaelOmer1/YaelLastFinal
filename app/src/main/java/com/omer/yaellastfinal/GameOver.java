@@ -20,8 +20,8 @@ public class GameOver extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gameover);
 
-        highScoreText = findViewById(R.id.highScoreText);
-        levelText = findViewById(R.id.levelText);
+//        highScoreText = findViewById(R.id.highScoreText);
+//        levelText = findViewById(R.id.levelText);
 
         highScoreText.setText("High Score: " + highScore);
 

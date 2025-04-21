@@ -15,6 +15,8 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import com.omer.yaellastfinal.model.Ball;
 import com.omer.yaellastfinal.model.Jar;
+import com.omer.yaellastfinal.view.MyCanvasView;
+
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements View.OnTouchListener {
