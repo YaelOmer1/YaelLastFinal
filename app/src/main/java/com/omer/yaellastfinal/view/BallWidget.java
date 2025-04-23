@@ -2,66 +2,19 @@ package com.omer.yaellastfinal.view;
 
 import android.graphics.Bitmap;
 
-public class BallWidget {
+import com.omer.yaellastfinal.model.Ball;
 
-    private int x;
-    private int y;
+public class BallWidget extends Widget{
 
-    private static int width;
-    private static int height;
+    private Ball ball;
 
-
-    private Bitmap bitmap;
-
-    public BallWidget(int x, int y, Bitmap bitmap) {
-        this.x = x;
-        this.y = y;
-        this.bitmap = bitmap;
+    public BallWidget(Ball ball, int x, int y, Bitmap bitmap) {
+        super(x,y, bitmap);
+        this.ball = ball;
     }
 
-    public int getX() {
-        return x;
+    public Ball getBall() {
+        return ball;
     }
 
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    public void setY(int y) {
-        this.y = y;
-    }
-
-    public static int getWidth() {
-        return width;
-    }
-
-    public static void setWidth(int width) {
-        BallWidget.width = width;
-    }
-
-    public static int getHeight() {
-        return height;
-    }
-
-    public static void setHeight(int height) {
-        BallWidget.height = height;
-    }
-
-    public Bitmap getBitmap() {
-        return bitmap;
-    }
-
-    public void setBitmap(Bitmap bitmap) {
-        this.bitmap = bitmap;
-    }
-
-    public boolean isCollideWithPoint(int x, int y)
-    {
-        return x>=this.x && x<=this.x+width &&
-               y>=this.y && y<=this.y+height;
-    }
 }

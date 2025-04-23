@@ -1,6 +1,8 @@
 package com.omer.yaellastfinal.model;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Stack;
 
@@ -37,7 +39,9 @@ public class Jar {
 
     public List<Ball> getBallsAsList()
     {
-        return new ArrayList<>(balls);
+        List<Ball> listBalls = new ArrayList<>(balls);
+        Collections.reverse(listBalls);
+        return listBalls;
     }
 
     @Override

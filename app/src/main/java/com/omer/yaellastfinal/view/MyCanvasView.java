@@ -31,7 +31,8 @@ public class MyCanvasView extends View {
     private Paint paint;
     private Bitmap bitmapJar;
 
-    private Bitmap bitmapSelectedBall;
+    private BallWidget selectedBallWidget;
+    private JarWidget sourceJarWidget;
 
 
     private Map<ColorBall, Bitmap> mapBitmapBalls = new HashMap<>();
@@ -109,8 +110,11 @@ public class MyCanvasView extends View {
 //        return R.drawable.ballred;
 //    }
 
-    private List<BallWidget> listBallWidgets =
-            new ArrayList<BallWidget>();
+    private List<JarWidget> listJarWidgets =
+            new ArrayList<>();
+
+    private Map<Ball, BallWidget> mapBallToBallWidgets =
+            new HashMap<>();
 
     public MyCanvasView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
@@ -146,14 +150,11 @@ public class MyCanvasView extends View {
             mapBitmapBalls.put(ballColors[i], bitmapBall);
         }
 
-        int ballDrawableId = mapBallColorToDrawableId.get(ballColors[0]);
-        bitmapSelectedBall = BitmapFactory.decodeResource(
-                context.getResources(), ballDrawableId);
-        bitmapSelectedBall = Bitmap.createScaledBitmap(
-                bitmapSelectedBall, BALL_WIDTH, BALL_HEIGHT, true);
-
-        BallWidget.setWidth(BALL_WIDTH);
-        BallWidget.setHeight(BALL_HEIGHT);
+//        int ballDrawableId = mapBallColorToDrawableId.get(ballColors[0]);
+//        bitmapSelectedBall = BitmapFactory.decodeResource(
+//                context.getResources(), ballDrawableId);
+//        bitmapSelectedBall = Bitmap.createScaledBitmap(
+//                bitmapSelectedBall, BALL_WIDTH, BALL_HEIGHT, true);
     }
 
 
@@ -192,9 +193,14 @@ public class MyCanvasView extends View {
             for (int numJar = 0; numJar < MAX_JARS_IN_LINE; numJar++) {
                 canvas.drawBitmap(bitmapJar, x, y, paint);
 
+
                 int xBall = x + 60;
                 int yBall = y + 70;
                 Jar jar = controller.getBallPuzzleGame().getJarsList().get(countJars);
+                if (firstOnDraw) {
+                    listJarWidgets.add(new JarWidget(jar, x, y, bitmapJar));
+                }
+
                 int numBalls = jar.getBalls().size();
                 int missingBallsInJar = Jar.MAX_BALLS_IN_JAR - numBalls;
                 yBall += missingBallsInJar * (BALL_HEIGHT + BALL_MARGIN_BOTTOM);
@@ -208,7 +214,9 @@ public class MyCanvasView extends View {
 
                     if (firstOnDraw)
                     {
-                        listBallWidgets.add(new BallWidget(xBall, yBall, bitmapBall));
+                        mapBallToBallWidgets.put(
+                                ball,
+                                new BallWidget(ball, xBall, yBall, bitmapBall));
                     }
 
                     yBall += BALL_HEIGHT + BALL_MARGIN_BOTTOM;
@@ -225,8 +233,10 @@ public class MyCanvasView extends View {
             }
         }
 
-        if (bitmapSelectedBall != null) {
-            canvas.drawBitmap(bitmapSelectedBall, endX, endY, paint);
+        if (selectedBallWidget != null) {
+            canvas.drawBitmap(selectedBallWidget.getBitmap(),
+                    endX - selectedBallWidget.getBitmap().getWidth()/2,
+                    endY - selectedBallWidget.getBitmap().getHeight()/2, paint);
         }
 
         firstOnDraw = false;
@@ -239,14 +249,20 @@ public class MyCanvasView extends View {
         {
             case MotionEvent.ACTION_DOWN:
 
+                if (selectedBallWidget != null)
+                {
+                    super.onTouchEvent(event);
+                }
+
                 startX = endX = event.getX();
                 startY = endY = event.getY();
-                for (BallWidget ballWidget: listBallWidgets)
+                for (JarWidget jarWidget: listJarWidgets)
                 {
-                    if (ballWidget.isCollideWithPoint((int)startX, (int)startY))
+                    if (jarWidget.isCollideWithPoint((int)startX, (int)startY))
                     {
-                        bitmapSelectedBall = ballWidget.getBitmap();
-                        controller.getBallPuzzleGame().getJarsList().get(1).removeBall();
+                        Ball ball = jarWidget.getJar().removeBall();
+                        selectedBallWidget = mapBallToBallWidgets.get(ball);
+                        sourceJarWidget = jarWidget;
                     }
                 }
                 isMoving = true;
@@ -258,9 +274,33 @@ public class MyCanvasView extends View {
                 invalidate();
                 return true;
             case MotionEvent.ACTION_UP:
+                if (selectedBallWidget == null)
+                {
+                    return super.onTouchEvent(event);
+                }
+
                 endX = event.getX();
                 endY = event.getY();
                 isMoving = false;
+
+                for (JarWidget jarWidget: listJarWidgets)
+                {
+                    if (jarWidget.isCollideWithPoint((int)endX, (int)endY))
+                    {
+                        if (jarWidget.getJar().getBalls().size() >= Jar.MAX_BALLS_IN_JAR ||
+                            jarWidget.getJar().getBalls().peek().getColor() !=
+                                    selectedBallWidget.getBall().getColor())
+                        {
+                            Ball ball = selectedBallWidget.getBall();
+                            sourceJarWidget.getJar().addBall(ball);
+                        }
+
+                        Ball ball = selectedBallWidget.getBall();
+                        jarWidget.getJar().addBall(ball);
+                    }
+                }
+                selectedBallWidget = null;
+                invalidate();
         }
         return super.onTouchEvent(event);
     }
