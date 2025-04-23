@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import java.util.List;
 import java.util.Random;
+import java.util.Stack;
 
 
 public class BallPuzzleGame {
@@ -22,6 +23,7 @@ public class BallPuzzleGame {
     private int numberOfColors;
     private int numOfJars;
 
+    private Stack<Command> stackCommands = new Stack<>();
 
     public BallPuzzleGame(Difficulty difficulty) {
 
@@ -90,6 +92,13 @@ public class BallPuzzleGame {
         }
     }
 
+    public Stack<Command> getStackCommands() {
+        return stackCommands;
+    }
+
+    public void setStackCommands(Stack<Command> stackCommands) {
+        this.stackCommands = stackCommands;
+    }
 
     public List<Jar> getJarsList() {
 
@@ -124,5 +133,32 @@ public class BallPuzzleGame {
         this.numOfJars = numOfJars;
     }
 
+    public boolean isWin()
+    {
+        for (Jar jar : jarsList)
+        {
+            if (jar.getBalls().isEmpty())
+            {
+                continue;
+            }
 
+            if (jar.getBalls().size() < Jar.MAX_BALLS_IN_JAR)
+            {
+                return false;
+            }
+
+            List<Ball> listBallsInJar = jar.getBallsAsList();
+            Ball firstBall = listBallsInJar.get(0);
+            for (int i=1; i<listBallsInJar.size(); i++)
+            {
+                if (firstBall.getColor() != listBallsInJar.get(i).getColor())
+                {
+                    return false;
+                }
+            }
+
+        }
+
+        return true;
+    }
 }

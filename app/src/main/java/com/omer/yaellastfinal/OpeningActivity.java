@@ -57,7 +57,9 @@ public class OpeningActivity extends AppCompatActivity {
                         String selected = adapterView.getItemAtPosition(i).toString();
                         Toast.makeText(OpeningActivity.this, "SELECTED: " + i + " " + l, Toast.LENGTH_SHORT).show();
                         TextView textView = (TextView) view;
-                        textView.setTextSize(24);
+                        if (textView != null) {
+                            textView.setTextSize(24);
+                        }
 
                         level = (int) l+1;
                     }

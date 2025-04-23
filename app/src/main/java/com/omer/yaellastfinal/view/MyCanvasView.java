@@ -7,17 +7,20 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
 import androidx.annotation.Nullable;
+import androidx.core.content.res.ResourcesCompat;
 
 import com.omer.yaellastfinal.Controller;
 import com.omer.yaellastfinal.R;
 import com.omer.yaellastfinal.model.Ball;
 import com.omer.yaellastfinal.model.BallPuzzleGame;
 import com.omer.yaellastfinal.model.ColorBall;
+import com.omer.yaellastfinal.model.Command;
 import com.omer.yaellastfinal.model.Jar;
 
 import java.util.ArrayList;
@@ -28,6 +31,7 @@ import java.util.Map;
 public class MyCanvasView extends View {
 
 
+
     private Paint paint;
     private Bitmap bitmapJar;
 
@@ -36,6 +40,12 @@ public class MyCanvasView extends View {
 
 
     private Map<ColorBall, Bitmap> mapBitmapBalls = new HashMap<>();
+
+
+    boolean gameWon = false;
+
+    Typeface myFont;
+
 
 
     Controller controller;
@@ -130,9 +140,8 @@ public class MyCanvasView extends View {
         this.context = context;
 
         paint = new Paint();
-        paint.setColor(Color.BLUE);
-        paint.setStrokeWidth(3);
-        paint.setStyle(Paint.Style.FILL);
+
+        myFont = ResourcesCompat.getFont(this.context, R.font.googlefont1);
 
         bitmapJar = BitmapFactory.decodeResource(
                 context.getResources(), R.drawable.jar);
@@ -239,6 +248,19 @@ public class MyCanvasView extends View {
                     endY - selectedBallWidget.getBitmap().getHeight()/2, paint);
         }
 
+        if (gameWon)
+        {
+            paint.setColor(Color.MAGENTA);
+            paint.setTextSize(100);
+            //paint.setTypeface(Typeface.SANS_SERIF);
+            paint.setStrokeWidth(3);
+            paint.setAntiAlias(true);
+            paint.setTypeface(myFont);
+            paint.setStyle(Paint.Style.FILL);
+
+            canvas.drawText("You win !", 220, 150, paint);
+        }
+
         firstOnDraw = false;
     }
 
@@ -283,22 +305,52 @@ public class MyCanvasView extends View {
                 endY = event.getY();
                 isMoving = false;
 
+                Ball ball = selectedBallWidget.getBall();
+                boolean wasBallDroppedInJar = false;
                 for (JarWidget jarWidget: listJarWidgets)
                 {
+                    // Check if finger touched one of the jars
                     if (jarWidget.isCollideWithPoint((int)endX, (int)endY))
                     {
-                        if (jarWidget.getJar().getBalls().size() >= Jar.MAX_BALLS_IN_JAR ||
+                        wasBallDroppedInJar = true;
+                        if (jarWidget.getJar().getBalls().isEmpty())
+                        {
+                            jarWidget.getJar().addBall(ball);
+                            controller.getBallPuzzleGame().
+                                    getStackCommands().push(
+                                            new Command(sourceJarWidget.getJar(),
+                                                        jarWidget.getJar()));
+                        }
+                        else if (jarWidget.getJar().getBalls().size() >= Jar.MAX_BALLS_IN_JAR ||
                             jarWidget.getJar().getBalls().peek().getColor() !=
                                     selectedBallWidget.getBall().getColor())
                         {
-                            Ball ball = selectedBallWidget.getBall();
                             sourceJarWidget.getJar().addBall(ball);
                         }
+                        else
+                        {
+                            jarWidget.getJar().addBall(ball);
+                            controller.getBallPuzzleGame().
+                                    getStackCommands().push(
+                                            new Command(sourceJarWidget.getJar(),
+                                                    jarWidget.getJar()));
 
-                        Ball ball = selectedBallWidget.getBall();
-                        jarWidget.getJar().addBall(ball);
+                            if (jarWidget.getJar().getBalls().size() == Jar.MAX_BALLS_IN_JAR)
+                            {
+                                if (controller.getBallPuzzleGame().isWin())
+                                {
+                                    this.gameWon = true;
+                                }
+                            }
+                        }
                     }
                 }
+
+                if (!wasBallDroppedInJar)
+                {
+                    sourceJarWidget.getJar().addBall(ball);
+                }
+
                 selectedBallWidget = null;
                 invalidate();
         }
