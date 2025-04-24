@@ -19,11 +19,15 @@ public class BallPuzzleGame {
     private int level;
 
     private List<Jar> jarsList;
+
+    private List<Jar> jarsListOfStartGame;
+
     private Difficulty difficulty;
     private int numberOfColors;
     private int numOfJars;
 
     private Stack<Command> stackCommands = new Stack<>();
+    private Stack<Command> stackCommandsReversed = new Stack<>();
 
     public BallPuzzleGame(Difficulty difficulty) {
 
@@ -69,6 +73,13 @@ public class BallPuzzleGame {
         for (int i = 0; i < 2; i++) {
             jarsList.add(new Jar());
         }
+
+//        for(Jar jar : jarsList)
+//        {
+//            Jar jar2 = new Jar();
+//            jar2.setBallsStack((Stack<Ball>)jar.getBallsStack().clone());
+//            jarsListOfStartGame.add(jar2);
+//        }
     }
 
     private void mixBalls(int swaps)
@@ -78,12 +89,12 @@ public class BallPuzzleGame {
 
         for (int i = 0; i < swaps; i++) {
             Jar fromJar = jarsList.get(random.nextInt(numOfJars));
-            while (fromJar.getBalls().isEmpty()) {
+            while (fromJar.getBallsStack().isEmpty()) {
                 fromJar = jarsList.get(random.nextInt(numOfJars));
             }
 
             Jar toJar = jarsList.get(random.nextInt(numOfJars));
-            while (toJar == fromJar || toJar.getBalls().size() >= 4) {
+            while (toJar == fromJar || toJar.getBallsStack().size() >= 4) {
                 toJar = jarsList.get(random.nextInt(numOfJars));
             }
 
@@ -95,9 +106,35 @@ public class BallPuzzleGame {
     public Stack<Command> getStackCommands() {
         return stackCommands;
     }
+    public Stack<Command> getStackCommandsReversed() {
+        return stackCommandsReversed;
+    }
+
 
     public void setStackCommands(Stack<Command> stackCommands) {
         this.stackCommands = stackCommands;
+    }
+
+    public void goBackOneMove()
+    {
+        if (!stackCommands.isEmpty())
+        {
+            Command command = stackCommands.pop();
+            Ball ball = command.getTargetJar().removeBall();
+            command.getSourceJar().addBall(ball);
+            stackCommandsReversed.push(command);
+        }
+    }
+
+    public void goForwardOneMove()
+    {
+        if (!stackCommandsReversed.isEmpty())
+        {
+            Command command = stackCommandsReversed.pop();
+            Ball ball = command.getSourceJar().removeBall();
+            command.getTargetJar().addBall(ball);
+            stackCommands.push(command);
+        }
     }
 
     public List<Jar> getJarsList() {
@@ -137,12 +174,12 @@ public class BallPuzzleGame {
     {
         for (Jar jar : jarsList)
         {
-            if (jar.getBalls().isEmpty())
+            if (jar.getBallsStack().isEmpty())
             {
                 continue;
             }
 
-            if (jar.getBalls().size() < Jar.MAX_BALLS_IN_JAR)
+            if (jar.getBallsStack().size() < Jar.MAX_BALLS_IN_JAR)
             {
                 return false;
             }
@@ -160,5 +197,13 @@ public class BallPuzzleGame {
         }
 
         return true;
+    }
+
+    public void goBackToStart()
+    {
+        for (int i=0; i<jarsListOfStartGame.size(); i++) {
+            Stack<Ball> ballsStack = jarsListOfStartGame.get(i).getBallsStack();
+            jarsList.get(i).setBallsStack(ballsStack);
+        }
     }
 }

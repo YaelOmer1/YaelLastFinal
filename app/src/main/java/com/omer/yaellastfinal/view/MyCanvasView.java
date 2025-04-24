@@ -1,6 +1,5 @@
 package com.omer.yaellastfinal.view;
 
-import android.app.GameManager;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -210,10 +209,10 @@ public class MyCanvasView extends View {
                     listJarWidgets.add(new JarWidget(jar, x, y, bitmapJar));
                 }
 
-                int numBalls = jar.getBalls().size();
+                int numBalls = jar.getBallsStack().size();
                 int missingBallsInJar = Jar.MAX_BALLS_IN_JAR - numBalls;
                 yBall += missingBallsInJar * (BALL_HEIGHT + BALL_MARGIN_BOTTOM);
-                for (int i = 0; i < jar.getBalls().size(); i++) {
+                for (int i = 0; i < jar.getBallsStack().size(); i++) {
                     Ball ball = jar.getBallsAsList().get(i);
                     //int imageBall = getBallImage(ball);
                     Bitmap bitmapBall = mapBitmapBalls.get(ball.getColor());
@@ -262,6 +261,11 @@ public class MyCanvasView extends View {
         }
 
         firstOnDraw = false;
+    }
+
+    public void onCancelLastBallMove()
+    {
+
     }
 
     @Override
@@ -313,7 +317,7 @@ public class MyCanvasView extends View {
                     if (jarWidget.isCollideWithPoint((int)endX, (int)endY))
                     {
                         wasBallDroppedInJar = true;
-                        if (jarWidget.getJar().getBalls().isEmpty())
+                        if (jarWidget.getJar().getBallsStack().isEmpty())
                         {
                             jarWidget.getJar().addBall(ball);
                             controller.getBallPuzzleGame().
@@ -321,8 +325,8 @@ public class MyCanvasView extends View {
                                             new Command(sourceJarWidget.getJar(),
                                                         jarWidget.getJar()));
                         }
-                        else if (jarWidget.getJar().getBalls().size() >= Jar.MAX_BALLS_IN_JAR ||
-                            jarWidget.getJar().getBalls().peek().getColor() !=
+                        else if (jarWidget.getJar().getBallsStack().size() >= Jar.MAX_BALLS_IN_JAR ||
+                            jarWidget.getJar().getBallsStack().peek().getColor() !=
                                     selectedBallWidget.getBall().getColor())
                         {
                             sourceJarWidget.getJar().addBall(ball);
@@ -335,7 +339,7 @@ public class MyCanvasView extends View {
                                             new Command(sourceJarWidget.getJar(),
                                                     jarWidget.getJar()));
 
-                            if (jarWidget.getJar().getBalls().size() == Jar.MAX_BALLS_IN_JAR)
+                            if (jarWidget.getJar().getBallsStack().size() == Jar.MAX_BALLS_IN_JAR)
                             {
                                 if (controller.getBallPuzzleGame().isWin())
                                 {

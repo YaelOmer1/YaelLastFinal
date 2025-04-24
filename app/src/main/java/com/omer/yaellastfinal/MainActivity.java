@@ -14,23 +14,26 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import com.omer.yaellastfinal.model.Ball;
+import com.omer.yaellastfinal.model.BallPuzzleGame;
+import com.omer.yaellastfinal.model.Difficulty;
 import com.omer.yaellastfinal.model.Jar;
 import com.omer.yaellastfinal.view.MyCanvasView;
 
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements View.OnTouchListener {
-    private Ball LIGHTBLUE, LIGHTPINK, LIGHTPURPLE, PINK, PURPLE, YELLOW, RED, BLUE, GREEN, ORANGE;
+
     private Controller controller;
     private Jar jars;
     private MyCanvasView myCanvasView;
     private TextView tvLevel;
     private int level;
 
+
     private Button btnMonitor;
 
     private TextView tvMonitor;
-    ImageButton sound, back, restart;
+    ImageButton btnSound, btnBack, btnReplay;
     SoundPool sp;
     int backgroundsound;
     boolean isSoundOn = false;
@@ -44,16 +47,27 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        controller = new Controller();
-
         this.level = getIntent().getIntExtra("level", 0);
         tvLevel = findViewById(R.id.tvLevel);
         tvLevel.setText("Level: " + this.level);
 
+        btnBack = findViewById(R.id.btnBack);
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                controller.goBackOneMove();
+            }
+        });
+
         tvMonitor = findViewById(R.id.tvMonitor);
 
+        BallPuzzleGame game = new BallPuzzleGame(Difficulty.EASY);
         myCanvasView = findViewById(R.id.myCanvas);
+        controller = new Controller(game, myCanvasView);
         myCanvasView.setController(controller);
+
+
+        tvMonitor.setVisibility(View.GONE);
 
         btnMonitor = findViewById(R.id.btnMonitor);
         btnMonitor.setOnClickListener(new View.OnClickListener() {
@@ -71,8 +85,8 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         });
 
 
-        sound = (ImageButton)findViewById(R.id.sound);
-        sound.setOnTouchListener(this);
+        btnSound = (ImageButton)findViewById(R.id.btnSound);
+        btnSound.setOnTouchListener(this);
 
         if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.LOLLIPOP){
             AudioAttributes aa = new AudioAttributes.Builder()
@@ -111,23 +125,15 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         //   level 3:  jars=8 mixes=35
 
 
-        restart = findViewById(R.id.restart);
-        restart.setOnClickListener(new View.OnClickListener() {
+        btnReplay = findViewById(R.id.btnReplay);
+        btnReplay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                controller.startGame(level);
+                // controller.startGame(level);
+                controller.replayBallMoves();
 
             }
         });
-
-        back = findViewById(R.id.back);
-//        back.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                // אני צריכה שהכפתור יחזור צעד אחד אחורה
-//            }
-//        });
-
 
         controller.startGame(level);
         StringBuilder msg = new StringBuilder();
@@ -179,16 +185,16 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
             view.setAlpha(1);
 
-            if (view == sound) {
+            if (view == btnSound) {
                 if (!isSoundOn) {
                     // Start looping sound
                     streamId = sp.play(backgroundsound, 1, 1, 1, -1, 1);
-                    sound.setImageResource(R.drawable.soundon);
+                    btnSound.setImageResource(R.drawable.soundon);
                     isSoundOn = true;
                 } else {
                     // Stop the sound
                     sp.stop(streamId);
-                    sound.setImageResource(R.drawable.soundoff);
+                    btnSound.setImageResource(R.drawable.soundoff);
                     isSoundOn = false;
                 }
             }

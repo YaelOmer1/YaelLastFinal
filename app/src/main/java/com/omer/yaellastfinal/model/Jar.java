@@ -1,7 +1,6 @@
 package com.omer.yaellastfinal.model;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Stack;
@@ -11,35 +10,39 @@ public class Jar {
 
     public static final int MAX_BALLS_IN_JAR = 4;
 
-    private Stack<Ball> balls;
+    private Stack<Ball> ballsStack;
 
 
     public Jar() {
 
-        balls = new Stack<>();
+        ballsStack = new Stack<>();
     }
 
     public void addBall(Ball ball) {
-        if (balls.size() < 4) {
-            balls.add(ball);
+        if (ballsStack.size() < 4) {
+            ballsStack.add(ball);
         }
     }
     public Ball removeBall() {
 
-        if (balls.isEmpty())
+        if (ballsStack.isEmpty())
             return null;
         else
-            return balls.pop();
+            return ballsStack.pop();
     }
 
-    public Stack<Ball> getBalls() {
+    public Stack<Ball> getBallsStack() {
 
-        return balls;
+        return ballsStack;
+    }
+
+    public void setBallsStack(Stack<Ball> ballsStack) {
+        this.ballsStack = ballsStack;
     }
 
     public List<Ball> getBallsAsList()
     {
-        List<Ball> listBalls = new ArrayList<>(balls);
+        List<Ball> listBalls = new ArrayList<>(ballsStack);
         Collections.reverse(listBalls);
         return listBalls;
     }
@@ -47,7 +50,7 @@ public class Jar {
     @Override
     public String toString() {
 
-        return balls.toString();
+        return ballsStack.toString();
     }
 
 }
